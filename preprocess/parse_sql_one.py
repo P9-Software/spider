@@ -1,15 +1,9 @@
-import os
-import traceback
-import re
-import sys
 import json
-import sqlite3
-import sqlparse
-import random
-from os import listdir, makedirs
 from collections import OrderedDict
 from nltk import word_tokenize, tokenize
-from os.path import isfile, isdir, join, split, exists, splitext
+
+import nltk
+nltk.download('punkt_tab')
 
 from process_sql import get_sql
 
@@ -36,10 +30,10 @@ class Schema:
         #print 'column_names_original: ', column_names_original
         #print 'table_names_original: ', table_names_original
         for i, (tab_id, col) in enumerate(column_names_original):
-            if tab_id == -1:
+            if tab_id == "-1":
                 idMap = {'*': i}
             else:
-                key = table_names_original[tab_id].lower()
+                key = table_names_original[int(tab_id)].lower()
                 val = col.lower()
                 idMap[key + "." + val] = i
 
@@ -74,9 +68,9 @@ def get_schemas_from_json(fpath):
 
 if __name__ == '__main__':
     
-    sql = "SELECT name ,  country ,  age FROM singer ORDER BY age DESC"
-    db_id = "concert_singer"
-    table_file = "tables.json"
+    sql = "INSERT QUERY;"
+    db_id = "INSERT DATABASE ID"
+    table_file = "INSERT TABLE FILE"
     
     schemas, db_names, tables = get_schemas_from_json(table_file)
     schema = schemas[db_id]

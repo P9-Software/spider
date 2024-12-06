@@ -1,16 +1,11 @@
-import os, sys
 import json
-import sqlite3
-import traceback
-import argparse
 from process_sql import get_sql
 
 
 #TODO: update the following dirs
-sql_path = 'spider/train.json'
-db_dir = 'database/'
+sql_path = 'train.json'
 output_file = 'dev_new.json'
-table_file = 'spider/tables.json'
+table_file = 'tables.json'
 
 
 class Schema:
@@ -36,10 +31,10 @@ class Schema:
         #print 'column_names_original: ', column_names_original
         #print 'table_names_original: ', table_names_original
         for i, (tab_id, col) in enumerate(column_names_original):
-            if tab_id == -1:
+            if tab_id == "-1":
                 idMap = {'*': i}
             else:
-                key = table_names_original[tab_id].lower()
+                key = table_names_original[int(tab_id)].lower()
                 val = col.lower()
                 idMap[key + "." + val] = i
 
@@ -77,7 +72,6 @@ schemas, db_names, tables = get_schemas_from_json(table_file)
 
 with open(sql_path) as inf:
     sql_data = json.load(inf)
-
 sql_data_new = []
 for data in sql_data:
     try:
